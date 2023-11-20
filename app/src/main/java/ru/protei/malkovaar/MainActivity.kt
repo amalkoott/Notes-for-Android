@@ -28,7 +28,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
             MalkovaarTheme {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
@@ -52,7 +51,7 @@ fun PrintNotes(notes: List<Note>, modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = it.title,
-                fontSize = 30.sp,
+                fontSize = 25.sp,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
             )
