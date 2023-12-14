@@ -3,8 +3,6 @@ package ru.protei.malkovaar.ui.notes
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import ru.protei.malkovaar.domain.Note
 
 class NotesViewModel : ViewModel() {
@@ -19,35 +17,24 @@ class NotesViewModel : ViewModel() {
 
     //  в выбранную заметку заносит новые строки
     fun onNoteChange(title: String, text: String){
-        viewModelScope.launch {
             selected.value!!.title = title
             selected.value!!.text = text
-        }
     }
 
     // выбранную заметку сохраняет
     fun onEditComplete(){
-        viewModelScope.launch {
             selected.value = null
-        }
     }
 
     // помечает замету как выбранную
     fun onNoteSelected(note: Note){
-        viewModelScope.launch {
             selected.value = note
-        }
     }
 
     // создает новую пустую заметку и помечает ее выбранной
     fun onAddNoteClicked(){
-        viewModelScope.launch {
-            if(selected.value!!.title == ""){
-                selected.value!!.title = "Новая заметка"
-            }
             notes.add(selected.value!!)
             onEditComplete()
-        }
     }
 
 }
