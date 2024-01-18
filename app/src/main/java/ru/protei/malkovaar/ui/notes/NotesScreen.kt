@@ -26,6 +26,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,12 +38,14 @@ import androidx.compose.ui.unit.sp
 import ru.protei.malkovaar.domain.Note
 import ru.protei.malkovaar.ui.notes.NotesViewModel
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotesScreen(vm: NotesViewModel) {
     val addState = remember { mutableStateOf(false) } // состояние окна, false - редактирование, true - добавление
     val selected by remember { mutableStateOf(vm.selected) }
+    val notes by vm.notes.collectAsState()
+
     val noteChange:() -> Unit = {vm.onNoteChange(selected.value!!.title,selected.value!!.text)}
     Scaffold(
         floatingActionButton = {
@@ -54,10 +57,9 @@ fun NotesScreen(vm: NotesViewModel) {
                     if(selected.value != null){
                         // сохраняем
                         if(addState.value) {
-                            vm.onAddNoteClicked() // новая заметка
                             addState.value = !addState.value
                         }
-                        else vm.onEditComplete() // отредактированная заметка
+                        vm.saveNote(selected.value!!)
                     }else{
                         // Добавляем
                         selected.value = Note("","")
@@ -71,7 +73,7 @@ fun NotesScreen(vm: NotesViewModel) {
     {
         // если selected - пустой, то это автоматически будет добавление заметки
         if(selected.value != null) EditNote(noteChange, selected)
-        else Notes(vm.notes, selected)
+        else Notes(notes, selected)
     }
 }
 @Composable
