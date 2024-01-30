@@ -19,15 +19,16 @@ class NotesViewModel(
         Note("Что приготовить","Лазанья, сырники, тбилиси, желе, фунчоза, картошка по-деревенски"),
     )
 
-    val notes = MutableStateFlow<List<Note>>(initialList)
+    val notes = MutableStateFlow<List<Note>>(emptyList())
 
     init {
         viewModelScope.launch {
-           // notesUseCase.fillWithInitialNotes(notes.value)
-
+            //notesUseCase.fillWithInitialNotes(initialList)
+        }
+        viewModelScope.launch {
             notesUseCase.notesFlow()
                 .collect{
-                    note ->
+                        note ->
                     notes.value = note
                 }
         }
@@ -40,18 +41,21 @@ class NotesViewModel(
             selected.value!!.title = title
             selected.value!!.text = text
     }
-    fun saveNote(note: Note){
-        viewModelScope.launch {
-            notesUseCase.save(selected.value!!)
-        }
-
-        onEditComplete()
-    }
     // помечает, что редактирование закончено -> нет выбранных заметок
     fun onEditComplete(){
+        val note = selected.value
+        if (note == null || note.title.isBlank()) return
+        viewModelScope.launch {
+            notesUseCase.save(note)
+        }
         selected.value = null
     }
+    fun onAddNoteClicked(){
+        selected.value = Note("","")
+    }
 
-
+    fun onNoteSelected(note: Note){
+        selected.value = note
+    }
 
 }

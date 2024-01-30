@@ -19,22 +19,10 @@ class NotesUseCase(
     }
 
     suspend fun save(note: Note){
-        var saved: List<Note> = notesRepo.loadAllNotes()
-        /*
-        saved.forEach(){
-            if(it.id == note.id){
-                notesRepo.update(note)
-            }else{
-                notesRepo.add(note)
-            }
+        if (note.id == null){
+            notesRepo.add(note)
+        }else{
+            notesRepo.update(note)
         }
-        */
-        for (item in saved){
-            if(item.id == note.id){
-                notesRepo.update(note) // редактируем
-                return
-            }
-        }
-        notesRepo.add(note) // добавляем, т.к. заметка не нашлась в списке
     }
 }
