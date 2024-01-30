@@ -47,6 +47,7 @@ fun NotesScreen(vm: NotesViewModel) {
     val notes by vm.notes.collectAsState()
 
     val noteChange:() -> Unit = {vm.onNoteChange(selected.value!!.title,selected.value!!.text)}
+    val selectNote:(Note) -> Unit = {vm.onNoteSelected(selected.value!!)}
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -56,13 +57,12 @@ fun NotesScreen(vm: NotesViewModel) {
                 onClick = {
                     if(selected.value != null){
                         // сохраняем
-                        if(addState.value) {
-                            addState.value = !addState.value
-                        }
-                        vm.saveNote(selected.value!!)
+                        vm.onEditComplete()
+                        addState.value = !addState.value
+
                     }else{
                         // Добавляем
-                        selected.value = Note("","")
+                        vm.onAddNoteClicked()
                         addState.value = !addState.value
                     }
                 }
@@ -73,11 +73,11 @@ fun NotesScreen(vm: NotesViewModel) {
     {
         // если selected - пустой, то это автоматически будет добавление заметки
         if(selected.value != null) EditNote(noteChange, selected)
-        else Notes(notes, selected)
+        else Notes(notes, selected, selectNote)
     }
 }
 @Composable
-fun Notes(notes: List<Note>, selected: MutableState<Note?>){
+fun Notes(notes: List<Note>, selected: MutableState<Note?>, selectNote: (Note)-> Unit){
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier
