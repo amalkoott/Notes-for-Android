@@ -9,4 +9,7 @@ interface NotesRepository {
     suspend fun fillDatabase(notes: List<Note>)
     suspend fun add(note: Note)
     suspend fun update(note: Note)
+
+    fun byRemoteID(remoteId: Long): Note?
+    fun byEquals(title: String, text: String): Note?
 }

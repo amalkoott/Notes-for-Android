@@ -1,4 +1,4 @@
-package ru.protei.malkovaar.data
+package ru.protei.malkovaar.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
@@ -6,7 +6,7 @@ import ru.protei.malkovaar.domain.Note
 
 @Database(
     entities = [Note::class],
-    version = 1,
+    version = 3,
     exportSchema = false
 )
 abstract class NotesDatabase : RoomDatabase(){

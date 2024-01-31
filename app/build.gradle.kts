@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
+
 }
 
 android {
@@ -94,4 +95,12 @@ dependencies {
 
     // optional - Paging 3 Integration
     implementation("androidx.room:room-paging:$room_version")
+
+    // retrofit
+    val retrofit_version = "2.9.0"
+    implementation ("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation ("com.squareup.retrofit2:converter-gson:$retrofit_version")
+    //val retrofit_version = "2.9.0"
+    //implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    //implementation("com.squareup.retrofit2:converter-json:$retrofit_version")
 }

@@ -12,8 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.room.Room
-import ru.protei.malkovaar.data.NotesDatabase
-import ru.protei.malkovaar.data.NotesRepositoryDB
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import ru.protei.malkovaar.data.local.NotesDatabase
+import ru.protei.malkovaar.data.local.NotesRepositoryDB
+import ru.protei.malkovaar.data.remote.NotesGitHubApi
+import ru.protei.malkovaar.data.remote.NotesGitHubRepository
 import ru.protei.malkovaar.domain.NotesUseCase
 import ru.protei.malkovaar.ui.notes.NotesViewModel
 import ru.protei.malkovaar.ui.theme.MalkovaarTheme
@@ -27,8 +33,28 @@ class MainActivity : ComponentActivity() {
             .build()
     }
 
-    private val notesRepo by lazy { NotesRepositoryDB(database.notesDao())}
-    private  val notesUseCase by lazy { NotesUseCase(notesRepo)}
+    var httpClient = OkHttpClient.Builder()
+        .addInterceptor { chain ->
+            val request: Request = chain.request().newBuilder()
+                .addHeader(
+                    "Authorization",
+                    "Bearer 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"
+                )
+                .build()
+            chain.proceed(request)
+        }
+        .build()
+
+    var retrofit = Retrofit.Builder()
+        .baseUrl("https://api.github.com/repos/amalkoott/Notes-for-Android/")
+        .client(httpClient)
+        .addConverterFactory(GsonConverterFactory.create())
+
+        .build()
+
+    private val notesApi by lazy { NotesGitHubRepository(retrofit.create(NotesGitHubApi::class.java)) }
+    private val notesRepo by lazy { NotesRepositoryDB(database.notesDao()) }
+    private  val notesUseCase by lazy { NotesUseCase(notesRepo, notesApi)}
 
     private val notesViewModel: NotesViewModel by viewModels {
         viewModelFactory {

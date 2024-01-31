@@ -7,7 +7,8 @@ import androidx.room.PrimaryKey
 @Entity
 class Note (
     var title: String,
-    var text: String
+    var text: String,
+    var remoteId: Long?
 ){
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null

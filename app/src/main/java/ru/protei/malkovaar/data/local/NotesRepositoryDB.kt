@@ -1,4 +1,4 @@
-package ru.protei.malkovaar.data
+package ru.protei.malkovaar.data.local
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -26,5 +26,12 @@ class NotesRepositoryDB(
     }
     override suspend fun update(note: Note) = withContext(Dispatchers.IO){
         dao.update(note)
+    }
+
+    override fun byRemoteID(remoteId: Long): Note? {
+        return dao.byRemoteID(remoteId)
+    }
+    override fun byEquals(title: String, text: String): Note? {
+        return dao.byEquals(title, text)
     }
 }

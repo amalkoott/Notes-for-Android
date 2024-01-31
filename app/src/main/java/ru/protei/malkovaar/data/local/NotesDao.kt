@@ -1,4 +1,4 @@
-package ru.protei.malkovaar.data
+package ru.protei.malkovaar.data.local
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -23,8 +23,14 @@ interface NotesDao {
     suspend fun update(note: Note)
 
     @Query("DELETE FROM Note WHERE id = :id")
-    suspend fun deletById(id: Long)
+    suspend fun deleteById(id: Long)
 
     @Query("DELETE FROM Note")
     fun deleteAll()
+
+    @Query("SELECT * FROM Note WHERE remoteId = :remoteId")
+    fun byRemoteID(remoteId: Long): Note
+
+    @Query("SELECT * FROM Note WHERE title = :title AND text = :text")
+    fun byEquals(title: String, text: String): Note
 }
