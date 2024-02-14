@@ -5,8 +5,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import ru.protei.malkovaar.domain.Note
 import ru.protei.malkovaar.domain.NotesRepository
+import javax.inject.Inject
 
-class NotesRepositoryDB(
+class NotesRepositoryDB @Inject constructor(
     private val dao: NotesDao
 ) : NotesRepository {
     override fun loadAllNotesFlow(): Flow<List<Note>> = dao.allFlow()

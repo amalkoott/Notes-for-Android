@@ -3,12 +3,14 @@ package ru.protei.malkovaar.ui.notes
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import ru.protei.malkovaar.domain.Note
 import ru.protei.malkovaar.domain.NotesUseCase
-
-class NotesViewModel(
+import javax.inject.Inject
+@HiltViewModel
+class NotesViewModel @Inject constructor(
     private val notesUseCase: NotesUseCase
 ) : ViewModel() {
 

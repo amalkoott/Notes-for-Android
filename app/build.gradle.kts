@@ -3,6 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
 
+    id ("com.google.dagger.hilt.android")
+
 }
 
 android {
@@ -100,7 +102,10 @@ dependencies {
     val retrofit_version = "2.9.0"
     implementation ("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation ("com.squareup.retrofit2:converter-gson:$retrofit_version")
-    //val retrofit_version = "2.9.0"
-    //implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
-    //implementation("com.squareup.retrofit2:converter-json:$retrofit_version")
+
+
+    // hilt
+    val hilt_version = "2.50"
+    implementation ("com.google.dagger:hilt-android:$hilt_version")
+    kapt ("com.google.dagger:hilt-compiler:$hilt_version")
 }

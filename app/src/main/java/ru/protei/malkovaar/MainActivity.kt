@@ -9,22 +9,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.room.Room
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import ru.protei.malkovaar.data.local.NotesDatabase
-import ru.protei.malkovaar.data.local.NotesRepositoryDB
-import ru.protei.malkovaar.data.remote.NotesGitHubApi
-import ru.protei.malkovaar.data.remote.NotesGitHubRepository
-import ru.protei.malkovaar.domain.NotesUseCase
+import dagger.hilt.android.AndroidEntryPoint
 import ru.protei.malkovaar.ui.notes.NotesViewModel
 import ru.protei.malkovaar.ui.theme.MalkovaarTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    /*
     private val database: NotesDatabase by lazy{
         Room.databaseBuilder(
             this,
@@ -63,6 +55,9 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+     */
+    private val notesViewModel: NotesViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

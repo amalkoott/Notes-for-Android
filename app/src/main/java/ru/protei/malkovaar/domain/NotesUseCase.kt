@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import ru.protei.malkovaar.data.local.NotesRepositoryDB
 import ru.protei.malkovaar.data.remote.NotesGitHubRepository
+import javax.inject.Inject
 
-class NotesUseCase(
-    private val notesRepo: NotesRepositoryDB,
+class NotesUseCase @Inject constructor(
+    private val notesRepo: NotesRepository, //NotesRepository
     private val notesRemoteRepo: NotesGitHubRepository
 ) {
     suspend fun fillWithInitialNotes(initialNotes: List<Note>){

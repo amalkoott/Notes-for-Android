@@ -5,8 +5,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.protei.malkovaar.domain.Note
 import ru.protei.malkovaar.domain.NotesRemoteRepository
+import javax.inject.Inject
 
-class NotesGitHubRepository(private val notesApi: NotesGitHubApi): NotesRemoteRepository {
+class NotesGitHubRepository @Inject constructor(
+    private val notesApi: NotesGitHubApi
+): NotesRemoteRepository {
     override suspend fun list(): List<Note> = withContext(Dispatchers.IO){
         var issues: List<GitHubIssue>?
         try {
